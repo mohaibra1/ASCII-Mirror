@@ -1,6 +1,7 @@
 package asciimirror;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.Scanner;
 
 public class Main {
@@ -19,8 +20,16 @@ public class Main {
 
         File file = new File(input);
 
-        boolean isFile = file.isDirectory();
-        if (isFile) System.out.printf("%s\n%s", input, ascii);
-        else System.out.printf("%s\n%s", input, ascii);
+        try (Scanner scanner1 = new Scanner(file)){
+            while (scanner1.hasNext()){
+                System.out.println(scanner1.nextLine());
+            }
+        }catch (FileNotFoundException fx){
+            System.out.println("File not found");
+        }
+
+//        boolean isFile = file.isDirectory();
+//        if (isFile) System.out.printf("%s\n%s", input, ascii);
+//        else System.out.printf("%s\n%s", input, ascii);
     }
 }
