@@ -1,18 +1,26 @@
 package asciimirror;
 
+import java.io.File;
+import java.util.Scanner;
+
 public class Main {
     public static void main(String[] args) {
         String ascii = """
-                                    _______\s
-                                   < hello >
-                                    -------\s
-                            ^__^   /       \s
-                    _______/(oo)  /        \s
-                /\\/(       /(__)           \s
-                   | w----||               \s
-                   ||     ||               \s
+                            ^__^
+                    _______/(oo)
+                /\\/(       /(__)
+                   | w----||   \s
+                   ||     ||   \s
                 """;
 
-        System.out.println(ascii);
+        System.out.println("Input the file path:");
+        Scanner scanner = new Scanner(System.in);
+        String input = scanner.nextLine();
+
+        File file = new File(input);
+
+        boolean isFile = file.isDirectory();
+        if (isFile) System.out.printf("%s\n%s", input, ascii);
+        else System.out.printf("%s\n%s", input, ascii);
     }
 }
