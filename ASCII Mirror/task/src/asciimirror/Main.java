@@ -2,34 +2,44 @@ package asciimirror;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
-        String ascii = """
-                            ^__^
-                    _______/(oo)
-                /\\/(       /(__)
-                   | w----||   \s
-                   ||     ||   \s
-                """;
-
+        Scanner input = new Scanner(System.in);
         System.out.println("Input the file path:");
-        Scanner scanner = new Scanner(System.in);
-        String input = scanner.nextLine();
+        String filePath = input.nextLine();
 
-        File file = new File(input);
+        File file = new File(filePath);
 
-        try (Scanner scanner1 = new Scanner(file)){
-            while (scanner1.hasNext()){
-                System.out.println(scanner1.nextLine());
-            }
-        }catch (FileNotFoundException fx){
-            System.out.println("File not found");
+        if (!file.exists() || file.isDirectory()) {
+            System.out.println("File not found!");
+            return;
         }
 
-//        boolean isFile = file.isDirectory();
-//        if (isFile) System.out.printf("%s\n%s", input, ascii);
-//        else System.out.printf("%s\n%s", input, ascii);
+        List<String> lines = new ArrayList<>();
+
+        try (Scanner fileScanner = new Scanner(file)) {
+            while (fileScanner.hasNextLine()) {
+                lines.add(fileScanner.nextLine());
+            }
+        } catch (FileNotFoundException e) {
+            System.out.println("File not found!");
+            return;
+        }
+
+        int maxLength = 0;
+        for (String line : lines) {
+            if (line.length() > maxLength) {
+                maxLength = line.length();
+            }
+        }
+
+        for (String line : lines) {
+            String padded = String.format("%-" + maxLength + "s", line);
+            System.out.println(padded + " | " + padded);
+        }
     }
 }
