@@ -2,9 +2,7 @@ package asciimirror;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 
 public class Main {
     public static void main(String[] args) {
@@ -30,6 +28,7 @@ public class Main {
             return;
         }
 
+        // Find the max line length
         int maxLength = 0;
         for (String line : lines) {
             if (line.length() > maxLength) {
@@ -39,7 +38,30 @@ public class Main {
 
         for (String line : lines) {
             String padded = String.format("%-" + maxLength + "s", line);
-            System.out.println(padded + " | " + padded);
+            String mirrored = mirrorReverse(padded);
+            System.out.println(padded + " | " + mirrored);
         }
+    }
+
+    private static String mirrorReverse(String line) {
+        Map<Character, Character> mirrorMap = new HashMap<>();
+        mirrorMap.put('<', '>');
+        mirrorMap.put('>', '<');
+        mirrorMap.put('[', ']');
+        mirrorMap.put(']', '[');
+        mirrorMap.put('{', '}');
+        mirrorMap.put('}', '{');
+        mirrorMap.put('(', ')');
+        mirrorMap.put(')', '(');
+        mirrorMap.put('/', '\\');
+        mirrorMap.put('\\', '/');
+
+        StringBuilder reversed = new StringBuilder();
+        for (int i = line.length() - 1; i >= 0; i--) {
+            char c = line.charAt(i);
+            reversed.append(mirrorMap.getOrDefault(c, c));
+        }
+
+        return reversed.toString();
     }
 }
